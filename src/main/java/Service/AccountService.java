@@ -1,5 +1,6 @@
 package Service;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import DAO.AccountDAO;
@@ -22,6 +23,10 @@ public class AccountService {
 
     public List<Account> getAllAccounts() {
         return accountDAO.getAllAccounts();
+    }
+
+    public Account login(Account account) throws SQLException {
+        return accountDAO.getAccountByUserPass(account);
     }
     
 }

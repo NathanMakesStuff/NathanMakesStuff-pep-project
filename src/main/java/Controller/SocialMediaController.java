@@ -1,5 +1,6 @@
 package Controller;
 
+import java.sql.SQLException;
 import java.util.List;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
@@ -34,6 +35,7 @@ public class SocialMediaController {
         Javalin app = Javalin.create();
         app.post("/register", this::postAccountHandler);
         app.get("/accounts", this::accountsHandler);
+        app.post("/login", this::loginHandler);
         return app;
     }
 
@@ -58,6 +60,17 @@ public class SocialMediaController {
     private void accountsHandler(Context ctx) {
         List<Account> accounts = accountService.getAllAccounts();
         ctx.json(accounts);
+    }
+
+    private void loginHandler(Context ctx) throws JsonMappingException, JsonProcessingException, SQLException{
+        ObjectMapper mapper = new ObjectMapper();
+        Account account = mapper.readValue(ctx.body(), Account.class);
+        Account addedAccount = accountService.login(account);
+        if(addedAccount != null) {
+            ctx.json(mapper.writeValueAsString(addedAccount));
+        }else{
+            ctx.status(401);
+        }
     }
 
 
