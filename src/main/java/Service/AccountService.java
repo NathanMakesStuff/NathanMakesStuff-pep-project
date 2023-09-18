@@ -25,7 +25,7 @@ public class AccountService {
         return accountDAO.getAllAccounts();
     }
 
-    public Account login(Account account) throws SQLException {
+    public Account login(Account account){
         return accountDAO.getAccountByUserPass(account);
     }
     

@@ -38,6 +38,7 @@ public class SocialMediaController {
         app.get("/accounts", this::accountsHandler);
         app.post("/login", this::loginHandler);
         app.post("/messages", this::messagesHandler);
+        app.delete("/messages/{message_id}", this::deletionHandler);
         return app;
     }
 
@@ -64,7 +65,7 @@ public class SocialMediaController {
         ctx.json(accounts);
     }
 
-    private void loginHandler(Context ctx) throws JsonMappingException, JsonProcessingException, SQLException{
+    private void loginHandler(Context ctx) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Account account = mapper.readValue(ctx.body(), Account.class);
         Account addedAccount = accountService.login(account);
@@ -75,7 +76,7 @@ public class SocialMediaController {
         }
     }
 
-    private void messagesHandler(Context ctx) throws JsonMappingException, JsonProcessingException, SQLException{
+    private void messagesHandler(Context ctx) throws JsonMappingException, JsonProcessingException{
         ObjectMapper mapper = new ObjectMapper();
         Message message = mapper.readValue(ctx.body(), Message.class);
         Message addedMessage = messageService.createMessage(message);
@@ -86,5 +87,18 @@ public class SocialMediaController {
         }
     }
 
+    private void deletionHandler(Context ctx) throws JsonMappingException, JsonProcessingException{
+        ObjectMapper mapper = new ObjectMapper();
+        String delete = ctx.pathParam("message_id");
+        Integer messageid = Integer.parseInt(delete);
+        Message deletedMessage = messageService.deleteMessage(messageid);
+        if (deletedMessage != null) {
+            ctx.json(mapper.writeValueAsString(deletedMessage));
+        }else{
+            // message does not exist/already deleted
+            ctx.status(200); 
+        }
+        
+    }
 
 }

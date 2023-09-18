@@ -58,7 +58,7 @@ public class AccountDAO {
         return null;
     }
 
-    public Account getAccountByUserPass(Account account) throws SQLException{
+    public Account getAccountByUserPass(Account account){
         Connection connection = ConnectionUtil.getConnection();
         try {
             //Write SQL logic here
