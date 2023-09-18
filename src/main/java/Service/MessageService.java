@@ -21,7 +21,23 @@ public class MessageService {
         return messageDAO.createMessage(message);
     }
 
-    public Message deleteMessage(int message) {
-        return messageDAO.deleteMessage(message);
+    public Message deleteMessage(int messageID) {
+        return messageDAO.deleteMessage(messageID);
+    }
+
+    public List<Message> getAllMessages() {
+        return messageDAO.getAllMessages();
+    }
+
+    public Message getMessage(int messageID) {
+        return messageDAO.getMessageByID(messageID);
+    }
+
+    public List<Message> getAllMessagesFromUser(int account_id) {
+        return messageDAO.getAllMessagesFromUser(account_id);
+    }
+
+    public Message updateMessage(int message_id, String newText) {
+        return messageDAO.updateMessageByID(message_id, newText);
     }
 }
